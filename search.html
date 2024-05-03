@@ -1,0 +1,41 @@
+<!-- search.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<body>
+    <a href="http://localhost:3000/index.html">Home</a> | 
+    <a href="http://localhost:3000/search.html">Search</a>
+    <h2>Search for Animal Sound</h2>
+    <form id="searchForm">
+        <label for="animal">Enter animal:</label>
+        <input type="text" id="animal" name="q">
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="searchResult"></div>
+
+    <script>
+        // Handle search form submission
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const animal = document.getElementById('animal').value;
+
+            // Fetch search result from server
+            fetch(`/search?q=${animal}`)
+                .then(response => response.text())
+                .then(data => {
+                    // Display search result
+                    const searchResultDiv = document.getElementById('searchResult');
+                    searchResultDiv.innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>

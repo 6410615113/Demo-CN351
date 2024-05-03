@@ -1,0 +1,39 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+</head>
+<body>
+    <a href="http://localhost:3000/index.html">Home</a> | 
+    <a href="http://localhost:3000/search.html">Search</a>
+    <h2>Welcome!</h2>
+    <div id="credentials">
+        <!-- Display username and password here -->
+    </div>
+
+    <script>
+        // Fetch username and password from server
+        fetch('/credentials')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Unauthorized');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Display username and password
+                const credentialsDiv = document.getElementById('credentials');
+                credentialsDiv.innerHTML = `
+                    <p>Username: ${data.username}</p>
+                    <p>Password: ${data.password}</p>
+                `;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
+</body>
+</html>
